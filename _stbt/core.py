@@ -529,7 +529,7 @@ class _AnnotatedTemplate(namedtuple(
 
     @property
     def friendly_name(self):
-        return self.absolute_filename or '<Custom Image>'
+        return self.relative_filename or '<Custom Image>'
 
 
 def _load_template(template):
@@ -951,8 +951,7 @@ class DeviceUnderTest(object):
                 imglog.append(matches=result)
                 if grabbed_from_live:
                     self._sink_pipeline.draw(
-                        result, label="match(%r)" %
-                        os.path.basename(template.friendly_name))
+                        result, label="match(%r)" % template.friendly_name)
                 yield result
 
         finally:
@@ -973,7 +972,7 @@ class DeviceUnderTest(object):
                 region=region)
             self._sink_pipeline.draw(
                 result, label="match(%r)" %
-                os.path.basename(template.friendly_name))
+                template.friendly_name)
             yield result
 
     def detect_motion(self, timeout_secs=10, noise_threshold=None, mask=None):
